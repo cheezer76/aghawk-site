@@ -1,0 +1,116 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>AgHawk Drone Locator</title>
+  <style>
+    body { font-family: Arial, sans-serif; padding: 20px; background: #f8f8f8; }
+    h1 { color: #003366; }
+    .applicator-card { border: 1px solid #ccc; padding: 10px; margin-bottom: 10px; background: white; }
+  </style>
+</head>
+<body>
+  <h1>AgHawk Drone Applicator Locator</h1>
+  <p>Enter your ZIP code and choose a search radius to find nearby drone applicators.</p>
+
+  <label for="zip">Your ZIP Code:</label>
+  <input type="text" id="zip" placeholder="e.g. 75414" />
+  <label for="radius">Radius (miles):</label>
+  <select id="radius">
+    <option value="25">25</option>
+    <option value="50">50</option>
+    <option value="100" selected>100</option>
+  </select>
+  <button onclick="findApplicators()">Search</button>
+
+  <div id="results" style="margin-top:20px;"></div>
+
+  <script>
+    const applicators = [
+      {
+        "Applicator": "Justin Easley",
+        "zipcode": 75090,
+        "Phone number": "9035466843",
+        "rating": 3.2,
+        "latitude": 33.6309,
+        "longitude": -96.591
+      },
+      {
+        "Applicator": "Dusten Wilson",
+        "zipcode": 75414,
+        "Phone number": "9038155911",
+        "rating": 5,
+        "latitude": 33.5203,
+        "longitude": -96.1658
+      },
+      {
+        "Applicator": "Chad Wetzel",
+        "zipcode": 75458,
+        "Phone number": "9033570697",
+        "rating": 4.3,
+        "latitude": 33.1452,
+        "longitude": -95.9227
+      },
+      {
+        "Applicator": "Robert Hanson",
+        "zipcode": 75489,
+        "Phone number": "9038455542",
+        "rating": 4.5,
+        "latitude": 33.4335,
+        "longitude": -96.3647
+      }
+    ];
+
+    const zipToCoords = {
+      "75090": [33.6309, -96.5910],
+      "75414": [33.5203, -96.1658],
+      "75458": [33.1452, -95.9227],
+      "75489": [33.4335, -96.3647]
+    };
+
+    function haversine(lat1, lon1, lat2, lon2) {
+      const R = 3958.8;
+      const toRad = x => x * Math.PI / 180;
+      const dLat = toRad(lat2 - lat1);
+      const dLon = toRad(lon2 - lon1);
+      const a = Math.sin(dLat/2)**2 + Math.cos(toRad(lat1)) * Math.cos(toRad(lat2)) * Math.sin(dLon/2)**2;
+      return R * (2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a)));
+    }
+
+    function findApplicators() {
+      const userZip = document.getElementById('zip').value;
+      const radius = parseFloat(document.getElementById('radius').value);
+      const resultsDiv = document.getElementById('results');
+      resultsDiv.innerHTML = "";
+
+      if (!zipToCoords[userZip]) {
+        resultsDiv.innerHTML = "<p style='color:red;'>ZIP code not recognized.</p>";
+        return;
+      }
+
+      const [userLat, userLng] = zipToCoords[userZip];
+      const nearby = applicators.filter(app => {
+        const dist = haversine(userLat, userLng, app.latitude, app.longitude);
+        return dist <= radius;
+      });
+
+      if (nearby.length === 0) {
+        resultsDiv.innerHTML = "<p>No applicators found within that radius.</p>";
+        return;
+      }
+
+      nearby.forEach(app => {
+        const dist = haversine(userLat, userLng, app.latitude, app.longitude).toFixed(1);
+        const div = document.createElement('div');
+        div.className = "applicator-card";
+        div.innerHTML = `<strong>${app.Applicator}</strong><br>
+                         Phone: ${app["Phone number"]}<br>
+                         Rating: ${app.rating} ⭐<br>
+                         Distance: ${dist} miles`;
+        resultsDiv.appendChild(div);
+      });
+    }
+  </script>
+</body>
+</html>
