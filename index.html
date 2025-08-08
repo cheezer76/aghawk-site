@@ -1,0 +1,69 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>AgHawk — Precision From Above</title>
+  <link rel="stylesheet" href="assets/css/styles.css" />
+</head>
+<body>
+<header>
+  <div class="header-inner">
+    <img class="logo" src="aghawk_logo_transparent.png" alt="AgHawk logo" />
+    <nav>
+      <a href="index.html">Home</a>
+      <a href="find.html">Find Applicators</a>
+      <a href="apply.html">Apply to Join</a>
+    </nav>
+  </div>
+</header>
+
+<section class="hero">
+  <h1>AgHawk</h1>
+  <p>Precision From Above — connecting producers with trusted drone applicators.</p>
+  <div style="display:flex; gap:12px; justify-content:center; flex-wrap:wrap;">
+    <a class="btn" href="find.html">Find Applicators</a>
+    <a class="btn alt" href="apply.html">Apply to Join</a>
+  </div>
+</section>
+
+<div class="container">
+  <h2 class="section-title">Aerial Accuracy. Real Results.</h2>
+  <div class="cards">
+    <div class="card">
+      <img src="https://source.unsplash.com/800x600/?drone,agriculture,corn" alt="Drone over cornfield" />
+      <div class="p">
+        <strong>Precision Spraying</strong>
+        <p class="small">Targeted applications reduce drift and maximize input ROI.</p>
+      </div>
+    </div>
+    <div class="card">
+      <img src="https://source.unsplash.com/800x600/?agriculture,field,tractor,drone" alt="Ag drone in action" />
+      <div class="p">
+        <strong>Coverage at Scale</strong>
+        <p class="small">From spot treatments to full-field passes — get it done fast.</p>
+      </div>
+    </div>
+    <div class="card">
+      <img src="https://source.unsplash.com/800x600/?uav,farm,crop" alt="UAV scanning crops" />
+      <div class="p">
+        <strong>Trusted Applicators</strong>
+        <p class="small">Find vetted operators with the right licensing and experience.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<footer>
+  <div class="container">
+    <div class="small">© AgHawk</div>
+    <div class="small">Red • White • Blue — Built for American Agriculture.</div>
+  </div>
+</footer>
+<script>
+  const yearEls = document.querySelectorAll('footer .small');
+  if (yearEls.length) yearEls[0].innerHTML = "© " + new Date().getFullYear() + " AgHawk. All rights reserved.";
+</script>
+</body>
+</html>
